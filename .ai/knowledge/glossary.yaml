@@ -1,0 +1,78 @@
+# Agent Coding PM 角色專屬術語表
+
+schema_version: "1.0"
+
+terms:
+  - term: "Agent Coding"
+    definition: "使用 AI Coding Agent 自動化軟體開發流程的實踐，涵蓋需求定義到驗證通過的全流程"
+    usage: "本 Repo 的核心領域，所有流程設計都以此為前提"
+
+  - term: "L0 / L1 / L2"
+    definition: "風險分層等級。L0=低風險（UI文字、簡單CRUD）；L1=中風險（單服務功能）；L2=高風險（跨服務、Schema遷移、敏感資料）"
+    usage: "每個需求進入流程前必須先判定風險等級"
+
+  - term: "Executable Requirements"
+    definition: "可被 Agent 直接執行的結構化需求，含明確的 Acceptance Test、邊界條件與成功指標"
+    usage: "取代傳統模糊需求描述，確保 Agent 不需口頭補充就能開始工作"
+
+  - term: "五大 Gate"
+    definition: "品質門檻體系：Gate A（供應鏈安全）、Gate B（Agent 工具安全）、Gate C（系統正確性）、Gate D（程式碼品質）、Gate E（Agentic 工作流安全）"
+    usage: "Handoff 前必須確認對應風險等級的 Gate 檢查項"
+
+  - term: "Verified Acceptable Outcome Lead Time"
+    definition: "從需求定義到驗證通過的全流程時間，是衡量 Agent Coding 效能的核心指標"
+    usage: "取代單純的「開發速度」作為績效衡量標準"
+
+  - term: "瓶頸遷移"
+    definition: "AI 解決一個瓶頸後，系統性地在其他環節產生新瓶頸的現象"
+    usage: "PM 需預判六大瓶頸（需求定義、Review頻寬、驗證系統、架構一致性、制度知識、信任治理）的遷移方向"
+
+  - term: "判斷權分配"
+    definition: "按判斷類型而非技能分工的角色定義：PM=價值判斷、Architect=結構判斷、Dev=實作判斷、QE=信心判斷、SRE=風險判斷"
+    usage: "決定誰對什麼類型的決策有最終拍板權"
+
+  - term: "Knowledge-as-Code"
+    definition: "將團隊隱性知識 codify 到 .claude.md、prompts、templates、decision rules 中，讓 Agent 可存取"
+    usage: "判斷標準被口頭傳達超過 2 次就應該 codify"
+
+  - term: "正確性幻覺"
+    definition: "AI 產出的程式碼語法完美、命名漂亮，讓人降低對邏輯錯誤的警覺"
+    usage: "Review 時特別注意「看起來很對」的程式碼"
+
+  - term: "Outcome"
+    definition: "以使用者行為或業務結果定義的目標，不是功能清單"
+    usage: "OPP 必須先對齊 Outcome 才能啟動驗證"
+
+  - term: "OPP"
+    full_name: "Opportunity + Experiment"
+    definition: "以問題或機會為核心，附帶可驗證假說與實驗方式的工作單位"
+    usage: "Inbox 信號經篩選後升級為 OPP"
+
+  - term: "Product Brief"
+    definition: "工程進入 PDR 前的執行輸入文件，整合背景、範圍、證據、風險與品質門檻"
+    usage: "Backlog → Handoff 階段必須產出 Product Brief"
+
+  - term: "PRD"
+    full_name: "Product Requirements Document"
+    definition: "產品需求文件，描述功能的目標、範圍、驗收標準"
+    usage: "每個功能開發前必須有 PRD"
+
+  - term: "Acceptance Criteria"
+    definition: "驗收標準，描述 User Story 完成的具體條件（可測試、可被 Agent 執行）"
+    usage: "每個 User Story 必須附帶 AC，且需可直接轉為自動測試"
+
+  - term: "Supply Chain Attack"
+    definition: "透過幻覺依賴（AI 建議不存在的套件）或惡意同名套件進行的攻擊"
+    usage: "Gate A 檢查重點：驗證所有新依賴存在於官方 registry"
+
+  - term: "Prompt Injection"
+    definition: "透過 PR 描述、Issue 或外部文件注入惡意指令給 Agent 的攻擊手法（OWASP LLM #1）"
+    usage: "Gate B 檢查重點：所有外部輸入視為不可信"
+
+  - term: "Refactoring Collapse"
+    definition: "AI 時代重構比例從 24% 降到 <10%、重複程式碼增加 4 倍的現象"
+    usage: "Gate D 檢查重點：預留 15-20% 迭代容量給技術債"
+
+  - term: "Vibe Coding"
+    definition: "用 AI 快速探索設計/實作空間，不追求打磨，把 prototype 當實際 spec 文件"
+    usage: "適用於早期探索階段，但不可直接進入正式 Backlog"

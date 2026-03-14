@@ -1,0 +1,128 @@
+schema_version: "1.0"
+last_updated: "2026-03-14"
+
+skills:
+  # --- Phase 1: 核心流程 ---
+
+  - name: "Inbox 分流"
+    alias: "pm-triage-inbox"
+    trigger: "有新 inbox 要先分類時"
+    description: "將 inbox 資訊分類為事實/信號/行動項目，作為後續處理前置步驟"
+    mode: interactive
+    estimated_effort: low
+    phase: 1
+    path: ".github/skills/pm-triage-inbox/SKILL.md"
+
+  - name: "背景回寫"
+    alias: "pm-update-context"
+    trigger: "需把已確認事實回寫 context 時"
+    description: "將已確認事實更新到 00_context，保持專案背景時效性"
+    mode: autonomous
+    estimated_effort: low
+    phase: 1
+    path: ".github/skills/pm-update-context/SKILL.md"
+
+  - name: "信號升 OPP"
+    alias: "pm-move-inbox-to-opp-exp"
+    trigger: "當信號需升級為 OPP 時"
+    description: "完成 Outcome 對齊並建立 OPP 區塊"
+    mode: hybrid
+    estimated_effort: medium
+    phase: 1
+    path: ".github/skills/pm-move-inbox-to-opp-exp/SKILL.md"
+
+  - name: "信號收集"
+    alias: "capture-signals"
+    trigger: "從會議或回饋收斂 signal 時"
+    description: "將非結構化輸入轉成結構化信號"
+    mode: hybrid
+    estimated_effort: low
+    phase: 1
+    path: ".github/skills/capture-signals/SKILL.md"
+
+  # --- Phase 2: 驗證與深挖 ---
+
+  - name: "實驗設計"
+    alias: "design-experiment"
+    trigger: "需要為 OPP 設計驗證時"
+    description: "為指定 OPP 設計低成本且可判斷成敗的驗證方案"
+    mode: hybrid
+    estimated_effort: medium
+    phase: 2
+    path: ".github/skills/design-experiment/SKILL.md"
+
+  - name: "風險深挖"
+    alias: "pm-deep-dive-risk"
+    trigger: "單一 OPP 卡住需深挖時"
+    description: "鎖定卡住的 OPP，找出核心障礙並提出推進路徑"
+    mode: interactive
+    estimated_effort: medium
+    phase: 2
+    path: ".github/skills/pm-deep-dive-risk/SKILL.md"
+
+  - name: "OPP 入 Backlog"
+    alias: "pm-move-opp-exp-to-backlog"
+    trigger: "當 OPP 驗證通過要進 backlog 時"
+    description: "將 validated OPP 移入 backlog 並補齊評分欄位"
+    mode: hybrid
+    estimated_effort: medium
+    phase: 2
+    path: ".github/skills/pm-move-opp-exp-to-backlog/SKILL.md"
+
+  # --- Phase 3: 交付與決策 ---
+
+  - name: "Backlog 移交工程"
+    alias: "pm-move-backlog-to-handoff"
+    trigger: "當 backlog ready 要移交工程時"
+    description: "建立 Product Brief 並完成 handoff"
+    mode: hybrid
+    estimated_effort: high
+    phase: 3
+    path: ".github/skills/pm-move-backlog-to-handoff/SKILL.md"
+
+  - name: "PRD 撰寫"
+    alias: "prd-write"
+    trigger: "當需要撰寫產品需求文件時"
+    description: "引導完成結構化 PRD，含 User Story、AC、成功指標"
+    mode: hybrid
+    estimated_effort: medium
+    phase: 3
+    path: ".github/skills/prd-write/SKILL.md"
+
+  - name: "優先順序決策"
+    alias: "priority-decide"
+    trigger: "當多個需求競爭資源需要排序時"
+    description: "基於決策框架產出優先順序排序與理由"
+    mode: interactive
+    estimated_effort: medium
+    phase: 3
+    path: ".github/skills/priority-decide/SKILL.md"
+
+  - name: "利害關係人對齊"
+    alias: "stakeholder-align"
+    trigger: "當需要對齊各方期望或解決衝突時"
+    description: "識別利害關係人、分析立場、產出對齊方案"
+    mode: interactive
+    estimated_effort: medium
+    phase: 3
+    path: ".github/skills/stakeholder-align/SKILL.md"
+
+  # --- Phase 4: 元技能 ---
+
+  - name: "技能擴充"
+    alias: "skill-expand"
+    trigger: "發現重複任務沒有對應技能時"
+    description: "為自身角色新增技能的基礎能力（元技能）"
+    mode: hybrid
+    estimated_effort: medium
+    phase: 4
+    path: ".github/skills/skill-expand/SKILL.md"
+
+  - name: "Copilot 橋接同步"
+    alias: "copilot-sync"
+    trigger: "AGENTS.md 有修改時"
+    description: "確保 copilot-instructions.md 與 AGENTS.md 的必要資訊保持同步"
+    mode: hybrid
+    estimated_effort: low
+    phase: 4
+    path: ".github/skills/copilot-sync/SKILL.md"
