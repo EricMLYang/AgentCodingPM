@@ -1,48 +1,523 @@
-整合您的階段定義，以下是符合 AI 輔助開發架構的標準化工作流程。此流程確保從商業價值驗證到 AI 程式碼生成的每個節點，都有明確的邊界與機器可讀的輸入。
+---
+# 產品開發流程（AI 時代角色分工版）
+---
 
-**核心流程圖**
-`Inbox ──► Outcomes ──► OPP + Experiments ──► Backlog ──► User Stories ──► PRD ──► 技術規格展開 ──► 初版驗收文件 ──► 工程實作與歸檔`
+# **1. 核心探索與規格化 (結合知識庫 RAG)**
+
+```text
+負責人：PM
+協助角色：設計師 / 架構師 / SA (早期參與)
+
+(知識庫 / 歷史脈絡 / 數據輸入) ──┐
+                                  ▼
+Inbox ──► Outcomes ──► OPP + Experiments ──► Backlog ──► User Stories ──► 初版 PRD
+```
+
+### PM 的核心責任
+
+AI 可以幫忙整理資料，但 **PM 負責回答三個問題**
+
+1️⃣ **這是不是值得解的問題**
+
+* 使用者痛點
+* 商業價值
+* 優先順序
+
+2️⃣ **成功長什麼樣**
+
+* Outcomes
+* 成功指標
+* 使用情境
+
+3️⃣ **範圍在哪裡**
+
+* 做什麼
+* 不做什麼
+
+### AI 在這一段的角色
+
+AI 可以幫助：
+
+* 整理 RAG 歷史案例
+* 生成初版 PRD
+* 找需求矛盾
+* 找漏掉的場景
+
+但**AI 不負責決策優先順序**。
 
 ---
 
-### Phase 1: 探索、驗證與需求收斂 (Exploration & PRD Generation)
-此階段確立「做什麼（What）」與「為什麼做（Why）」，並以 PRD 作為業務需求的最終收斂點。
-* **流程：** Inbox ──► Outcomes ──► OPP + Experiments ──► Backlog (Opportunity) ──► 補充 User Stories ──► 產出 PRD
-* **主導者：** PM
-* **協作者：** 架構師、設計師（確認技術可行性與介面流向）
-* **必須保留的核心資產：結構化 PRD**
-* **理由與邏輯：**
-  * 在 AI 時代，PRD 不是長篇敘述，而是 AI 理解商業意圖的 Context 邊界。
-  * PRD 必須包含結構化的 User Stories（如 `As a [role], I want to [action], so that [value]`），這提供了明確的行為主體與目的，防止後續 AI 生成無效邏輯。
-  * 包含實驗驗證的結果（Outcomes），作為不容推翻的商業事實依據。
+# **2. 專業領域驗證與文件擴充**
 
-### Phase 2: 技術規格展開 (Technical Specification Expansion)
-將商業需求的 PRD 轉換為工程上可執行的精確約束。
-* **流程：** 讀取 PRD ──► 系統架構評估 ──► 產出技術規格文件 (如 OpenSpec)
-* **主導者：** 架構師 / 資深工程師 / AI Agent
-* **必須保留的核心資產：狀態化技術規格與架構決策**
-* **理由與邏輯：**
-  * LLM 無法憑空想像既有系統的架構。此階段產出物（如 OpenSpec 的 `proposal.md`, `specs/` 差異, API 契約, 資料庫結構）是定義「如何做（How）」的唯一事實來源。
-  * 必須包含架構決策紀錄（ADR），明定技術選型限制，防堵 AI 實作時任意引入不相容的套件或架構。
+```text
+負責人：架構師 / 設計師 / SA
 
-### Phase 3: 初版驗收文件產出 (Initial Acceptance Document Generation)
-在撰寫任何業務邏輯程式碼之前，先定義「什麼叫做完成（Definition of Done）」。
-* **流程：** 讀取 技術規格 & PRD ──► 提取驗收條件 ──► 產出機器可讀的驗收文件
-* **主導者：** QA / 工程師 / AI Agent
-* **協作者：** PM（確認業務邏輯無誤）
-* **必須保留的核心資產：自動化驗收腳本 / BDD 場景描述**
-* **理由與邏輯：**
-  * 將 PRD 中的 User Stories 與技術規格轉換為 Gherkin 語法（`Given-When-Then`）或自動化測試的骨架。
-  * 這是約束 AI 產出品質的最高指導原則。AI 寫出的程式碼必須通過此驗收文件的測試標準，才能視為達標，消除人為驗證的模糊空間與時間成本。
+初版 PRD
+     │
+     ├──► [技術高不確定性]
+     │         └─► 架構師
+     │               └─► Architecture / Prototype
+     │
+     ├──► [體驗 / 介面需求]
+     │         └─► 設計師
+     │               └─► Wireframe / UX Prototype
+     │
+     └──► [系統流程 / 資料 / 整合]
+               └─► SA
+                     └─► 流程 / 資料 / API / 商業規則
 
-### Phase 4: 工程實作與歸檔 (Engineering Implementation & Archiving)
-執行編碼並將系統狀態推進至下一個版本。
-* **流程：** 讀取技術規格與驗收文件 ──► AI/工程師實作程式碼 ──► 通過驗收測試 ──► 更新系統 Baseline 規格
-* **主導者：** AI Coding Agent / 工程師
-* **必須保留的核心資產：原始碼與更新後的系統規格 (Baseline Specs)**
-* **理由與邏輯：**
-  * 開發完成後，必須將此次變更（Deltas）合併回主規格庫（如 OpenSpec 的 `archive` 流程）。這確保下一次開發循環（Phase 1）啟動時，系統規格與實際程式碼保持絕對一致，不會產生「文件過期」的技術債。
+(Agent) ──► 檢查規格衝突 / 遺漏需求
+```
+
+### 架構師的核心責任
+
+**技術可行性與系統邊界**
+
+* 系統架構
+* 技術選型
+* scalability
+* reliability
+
+AI 可以幫忙生成架構草稿，但
+
+**架構師負責判斷 trade-off**
 
 ---
 
-需要針對此流程中的哪一個產出物（例如：包含 User Story 的「結構化 PRD」，或無縫銜接 AI 的「初版驗收文件」），提供一份符合機器與人類共讀的 Markdown 標準模板？
+### 設計師的核心責任
+
+**體驗是否成立**
+
+* 使用流程
+* UX 邏輯
+* 介面原型
+
+AI 可以生成 UI
+但 **不能替代使用者理解**
+
+---
+
+### SA 的核心責任
+
+SA 在 AI 時代的定位會更清楚：
+
+> **SA 是需求 → 系統 的翻譯者**
+
+SA 主要負責：
+
+* 系統流程
+* 商業規則
+* 資料結構
+* API
+* 系統整合
+* 例外情境
+* 權限 / workflow
+
+SA 的工作本質是：
+
+**讓需求變成可以被工程實作的系統描述**
+
+---
+
+# **3. 實作與知識回饋 (Closed Loop)**
+
+```text
+負責人：工程團隊 / QA / SA
+
+定稿 PRD + 架構 + UX + 系統規格
+        │
+        └─► 資深工程師 / SA
+                └─► 技術規格展開
+                        └─► API / Data Model / 系統設計
+                        
+        └─► QA / Agent
+                └─► 測試案例生成 / 驗收條件
+
+                      ▼
+                 工程實作與上線
+                      ▼
+Data Outcomes
+                      ▼
+Retrospective
+                      ▼
+知識庫更新 / Agent 規則更新
+                      ▼
+回流 Step 1
+```
+
+### 資深工程師的核心責任
+
+AI 可以寫很多 code
+但資深工程師負責：
+
+* 系統品質
+* 技術決策
+* code review
+* 風險控制
+
+---
+
+### QA 的核心責任
+
+AI 可以生成測試案例，但 QA 負責：
+
+* 測試策略
+* 風險優先順序
+* 系統驗收
+
+---
+
+### Agent 在這一段的角色
+
+Agent 可以幫忙：
+
+* 生成測試案例
+* Code review
+* 安全掃描
+* 規格一致性檢查
+
+但**最終驗收仍是人負責**
+
+---
+
+# AI 時代角色總結
+
+整個團隊其實是在做一件事情：
+
+**逐步降低不確定性**
+
+```text
+PM
+降低「產品價值」的不確定性
+
+架構師
+降低「技術可行性」的不確定性
+
+設計師
+降低「使用體驗」的不確定性
+
+SA
+降低「系統邏輯」的不確定性
+
+工程師
+降低「實作品質」的不確定性
+
+QA
+降低「系統風險」的不確定性
+```
+
+AI 的作用：
+
+**加速產出，但不負責收斂風險。**
+
+---
+
+# 一句話版本（給團隊對齊）
+
+> 我們的開發流程不是為了寫更多文件，而是讓需求逐步收斂成「可設計、可開發、可驗證」的系統。
+> AI 可以加速產出，但每一個角色仍負責收斂不同類型的不確定性。
+
+------
+------
+
+
+下面這個是我幫你整理的 **AI 時代軟體團隊能力金字塔**。
+它其實是很多公司在 AI coding agent 普及之後逐漸形成的一個共識：
+
+> **越往上層，越接近「定義問題與系統結構」；越往下層，越接近「生成與實作」。**
+
+AI 主要衝擊的是 **底層能力**，而不是頂層能力。
+
+---
+
+# AI 時代軟體團隊能力金字塔
+
+```text
+                ▲
+                │
+        產品與系統定義能力
+                │
+        (Problem & System Definition)
+                │
+        PM / Architect / Senior SA
+                │
+────────────────────────────────
+
+        系統設計與架構能力
+                │
+        (System Architecture)
+                │
+        Architect / Senior Engineer / SA
+                │
+────────────────────────────────
+
+        技術實作與工程能力
+                │
+        (Engineering Implementation)
+                │
+        Software Engineer
+                │
+────────────────────────────────
+
+        程式生成與輔助能力
+                │
+        (AI Coding / Code Generation)
+                │
+        AI Agents / Coding Assistants
+                ▼
+```
+
+---
+
+# 每一層在 AI 時代的變化
+
+## 1️⃣ 最底層：程式生成
+
+角色
+
+* AI coding agent
+* Copilot
+* Claude Code
+* Codex
+* Cursor
+* Gemini Code Assist
+
+能力
+
+* code generation
+* unit test generation
+* code review
+* refactoring
+
+這一層正在 **高度自動化**。
+
+所以未來很多人說：
+
+> Junior engineer 的價值會下降。
+
+因為 AI 可以做大量這一層的工作。
+
+---
+
+## 2️⃣ 技術實作層
+
+角色
+
+* Software Engineer
+* Data Engineer
+* Backend / Frontend
+
+工作
+
+* 系統實作
+* debugging
+* 效能優化
+* integration
+
+AI 可以 **加速 3–10 倍**
+
+但這一層仍需要：
+
+* 技術理解
+* debugging
+* 系統思維
+
+所以工程師不會消失，但 **人數需求可能下降**。
+
+---
+
+## 3️⃣ 系統設計層
+
+角色
+
+* Architect
+* Senior Engineer
+* SA
+
+能力
+
+* system design
+* data model
+* distributed system
+* API design
+* integration
+* reliability
+
+AI 可以幫助：
+
+* 生成架構草稿
+* 找 trade-off
+* 建議設計
+
+但 AI 很難完全取代 **系統責任人**。
+
+因為這一層涉及：
+
+* 技術 trade-off
+* 風險管理
+* business constraint
+
+---
+
+## 4️⃣ 最上層：產品與系統定義
+
+角色
+
+* PM
+* Architect
+* Senior SA
+* Tech Lead
+
+能力
+
+* problem framing
+* product strategy
+* system boundary
+* business logic
+* prioritization
+
+這一層 AI **最難取代**。
+
+因為這一層的本質是：
+
+**決策與責任**
+
+例如：
+
+* 哪個需求值得做
+* 哪個系統應該存在
+* 哪個 trade-off 可以接受
+* 哪個風險可以承擔
+
+---
+
+# SA 在金字塔中的位置
+
+SA 的位置其實很有意思。
+
+它剛好在 **產品與系統之間的橋樑**。
+
+```text
+產品世界
+(PM)
+
+    │
+
+需求轉換
+(SA)
+
+    │
+
+系統世界
+(Architect / Engineer)
+```
+
+SA 的核心能力其實是：
+
+**結構化思考**
+
+例如：
+
+* workflow
+* business rule
+* data flow
+* exception case
+* integration
+
+AI 可以幫忙生成文件
+
+但**很難完全理解企業流程與系統邏輯**。
+
+所以未來 SA 很可能會變成：
+
+> **System Designer / Product System Architect**
+
+---
+
+# AI 時代最稀缺的能力
+
+如果用一句話總結：
+
+**AI 讓「做事的人」變多
+但「定義事情的人」仍然稀缺**
+
+所以未來最有價值的能力其實是：
+
+1️⃣ **問題定義能力**
+2️⃣ **系統設計能力**
+3️⃣ **跨領域整合能力**
+
+而不是單純 coding。
+
+---
+
+# 為什麼你的流程其實很合理
+
+你剛剛設計的流程其實有一個很好的特點：
+
+你把流程分成三層：
+
+```
+探索
+↓
+驗證
+↓
+實作
+```
+
+這其實正好對應金字塔。
+
+```text
+探索
+(Problem definition)
+
+驗證
+(System design)
+
+實作
+(Engineering)
+```
+
+所以你的流程其實是：
+
+**AI 時代很合理的產品開發流程**。
+
+---
+
+# 最後給你一個我覺得很重要的觀察
+
+未來 5–10 年
+
+軟體團隊可能會變成：
+
+```text
+PM / Architect
+        │
+Senior Engineer / SA
+        │
+AI Agents
+```
+
+而不是傳統的：
+
+```text
+PM
+ │
+Architect
+ │
+Engineer
+ │
+Junior Engineer
+```
+
+**Junior engineer 的角色會逐漸被 AI agent 吃掉。**
+
+但：
+
+**SA / Architect / PM 反而會更重要。**
+
+---
+
+
+
+
