@@ -1,0 +1,228 @@
+{
+  "report_meta": {
+    "tool": "manual-code-audit",
+    "project": "Marketing-Intelligence-Frontend",
+    "scan_date": "2026-03-31",
+    "framework": "Vue 3 + TypeScript + Vite",
+    "total_findings": 12,
+    "severity_summary": {
+      "CRITICAL": 3,
+      "HIGH": 4,
+      "MEDIUM": 3,
+      "LOW": 2
+    }
+  },
+  "findings": [
+    {
+      "id": "VULN-001",
+      "title": "Authentication Bypass — Permission Guard Completely Disabled",
+      "severity": "CRITICAL",
+      "cvss_estimate": 9.8,
+      "cwe": "CWE-287",
+      "owasp": "A07:2021 – Identification and Authentication Failures",
+      "file": "src/middleware/permission.ts",
+      "line_range": "8-12",
+      "code_snippet": "router.beforeEach(async (to, from, next) => {\n    NProgress.start()\n    // Bypass login check for now\n    next()\n  })",
+      "description": "The navigation guard in permission.ts unconditionally calls next() without any authentication or authorization check. The comment 'Bypass login check for now' indicates this was intended as a temporary measure but remains in production code. Although router/index.ts has a secondary guard that checks for a token, the permission middleware — which is explicitly set up in main.ts via setupPermissionGuard() — does zero enforcement.",
+      "impact": "Any user can access any route without authentication if the secondary router guard is ever removed or refactored. The 'defense in depth' principle is violated.",
+      "remediation": "Implement proper token/session validation in the permission guard. Remove the bypass comment and add real checks: verify token existence, validate token expiration, and enforce role-based route access using reportPermissions from the user store.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-002",
+      "title": "Fake Token Generation — No Real Authentication",
+      "severity": "CRITICAL",
+      "cvss_estimate": 9.5,
+      "cwe": "CWE-287",
+      "owasp": "A07:2021 – Identification and Authentication Failures",
+      "file": "src/stores/user.ts",
+      "line_range": "73-75",
+      "code_snippet": "const login = async (loginId: string) => {\n    const user = await UserService.login(loginId)\n    userInfo.value = user\n    token.value = 'token-' + user.UserId\n    return user\n  }",
+      "description": "The login action generates a predictable, client-side fabricated token by concatenating 'token-' with the UserId. This token is never issued or validated by any backend server. Combined with the mock login fallback in UserService, an attacker can authenticate as any user by guessing/knowing a UserId.",
+      "impact": "Complete authentication bypass. Any actor can forge a valid-looking token locally and gain access to the entire application. The token pattern is trivially predictable.",
+      "remediation": "Replace fake token generation with real JWT/OAuth token flow from backend. Token must be issued server-side, signed cryptographically, and validated on each API request. Remove all mock/fallback authentication for production builds.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-003",
+      "title": "No Frontend Route-Level Authorization Enforcement",
+      "severity": "CRITICAL",
+      "cvss_estimate": 8.8,
+      "cwe": "CWE-862",
+      "owasp": "A01:2021 – Broken Access Control",
+      "file": "src/router/index.ts",
+      "line_range": "67-96",
+      "code_snippet": "router.beforeEach((to, from, next) => {\n  let token = null\n  try {\n    const userState = JSON.parse(localStorage.getItem('user') || 'null')\n    token = userState?.token || null\n  } catch { token = null }\n  if (to.path === '/login') { next(); return }\n  if (!token) { next({ path: '/login', query: { redirect: to.fullPath } }); return }\n  next()\n})",
+      "description": "The router guard only checks for the existence of a token but never validates: (1) whether the token is legitimate, (2) whether the user has permission to access the requested route. The reportPermissions system in the user store is only used for sidebar visibility (Sidebar.vue) but never enforced at the routing level. A user with 'User' role can directly navigate to '/users' or '/report-permissions' via URL bar.",
+      "impact": "Horizontal and vertical privilege escalation. Low-privilege users can access admin-only pages by directly entering URLs.",
+      "remediation": "Add role/permission checks in the router guard using userStore.hasPermission(to.path). Return 403 or redirect to a not-authorized page for unauthorized access attempts.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-004",
+      "title": "Open Redirect via Login Redirect Parameter",
+      "severity": "HIGH",
+      "cvss_estimate": 7.4,
+      "cwe": "CWE-601",
+      "owasp": "A01:2021 – Broken Access Control",
+      "file": "src/views/LoginView.vue",
+      "line_range": "145-146",
+      "code_snippet": "const redirect = (route.query.redirect as string) || '/'\nrouter.push(redirect)",
+      "description": "After login, the application reads the 'redirect' query parameter from the URL and pushes to it without any validation. An attacker can craft a malicious URL like '/login?redirect=https://evil.com' or '/login?redirect=//evil.com' to redirect users to an external phishing site after they log in.",
+      "impact": "Phishing attacks. Users who click a crafted login link will be redirected to attacker-controlled sites after authenticating, potentially exposing credentials or session tokens.",
+      "remediation": "Validate that the redirect URL is a relative path within the application. Reject any absolute URLs, protocol-relative URLs, or paths starting with '//' or containing '://'.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-005",
+      "title": "Sensitive Authentication Data Stored in localStorage (XSS-Accessible)",
+      "severity": "HIGH",
+      "cvss_estimate": 7.0,
+      "cwe": "CWE-922",
+      "owasp": "A04:2021 – Insecure Design",
+      "files": [
+        "src/stores/plugins/persistedState.ts",
+        "src/utils/request.ts",
+        "src/utils/storage.ts"
+      ],
+      "description": "Token, userInfo (including UserId, Account, Email, DepartmentId), userRole, and reportPermissions are all persisted to localStorage via the Pinia persisted state plugin. The request interceptor also reads token directly from localStorage. localStorage is accessible to any JavaScript running on the same origin, including XSS payloads.",
+      "impact": "If any XSS vulnerability is found (including in third-party dependencies), attackers can exfiltrate tokens, user PII, and permission data from localStorage.",
+      "remediation": "Store authentication tokens in httpOnly cookies (set by backend). For data that must stay client-side, consider sessionStorage (shorter lifetime) and encrypt sensitive fields. Implement Content-Security-Policy headers.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-006",
+      "title": "No CSRF Protection on State-Changing API Requests",
+      "severity": "HIGH",
+      "cvss_estimate": 6.8,
+      "cwe": "CWE-352",
+      "owasp": "A01:2021 – Broken Access Control",
+      "file": "src/utils/request.ts",
+      "description": "The Axios instance does not include CSRF tokens in requests. There is no X-CSRF-Token or X-XSRF-TOKEN header configured. POST/PUT/DELETE requests to endpoints like createReportPermission, updateReportPermission, deleteReportPermission are all vulnerable if the backend does not independently enforce CSRF protection.",
+      "impact": "Cross-site request forgery attacks could modify report permissions, delete data, or perform other state-changing operations on behalf of authenticated users.",
+      "remediation": "Implement CSRF token handling: read XSRF-TOKEN from cookies and attach as X-XSRF-TOKEN header on state-changing requests. Alternatively, use SameSite cookie attributes with proper backend coordination.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-007",
+      "title": "Mock/Fallback Authentication Active in All Builds",
+      "severity": "HIGH",
+      "cvss_estimate": 6.5,
+      "cwe": "CWE-798",
+      "owasp": "A07:2021 – Identification and Authentication Failures",
+      "files": ["src/services/UserService.ts", "src/stores/user.ts"],
+      "description": "UserService.login() falls back to hardcoded mock users (MOCK_USERS) when the backend API fails. The user store similarly falls back to MOCK_PERMISSIONS. These fallbacks are not gated by environment checks (e.g., import.meta.env.DEV) and will activate in production if the API is temporarily unavailable.",
+      "impact": "In production, if the backend is down or unreachable, anyone can log in as 'admin' with full SysAdmin permissions using the mock fallback. This is effectively a backdoor.",
+      "remediation": "Wrap all mock/fallback logic with `if (import.meta.env.DEV)` guards. In production builds, API failures should result in login failure, not fallback to mock data.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-008",
+      "title": "Missing Security Headers in HTML Entry Point",
+      "severity": "MEDIUM",
+      "cvss_estimate": 5.3,
+      "cwe": "CWE-693",
+      "owasp": "A05:2021 – Security Misconfiguration",
+      "file": "index.html",
+      "description": "The index.html file lacks critical security meta tags: no Content-Security-Policy, no X-Content-Type-Options, no Referrer-Policy, no Permissions-Policy. While these are typically set by the web server, having CSP as a meta tag provides defense-in-depth.",
+      "impact": "Increased attack surface for XSS, clickjacking, MIME-type sniffing, and data leakage through referrer headers.",
+      "remediation": "Add meta CSP tag: <meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'\">. Configure proper security headers on the production web server/reverse proxy.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-009",
+      "title": "No Token Expiration or Refresh Mechanism",
+      "severity": "MEDIUM",
+      "cvss_estimate": 5.0,
+      "cwe": "CWE-613",
+      "owasp": "A07:2021 – Identification and Authentication Failures",
+      "files": ["src/stores/user.ts", "src/utils/request.ts"],
+      "description": "The fabricated token ('token-' + UserId) never expires. There is no token expiration check, no refresh token mechanism, and no automatic logout on token expiry. The response interceptor does not handle 401 responses to trigger re-authentication.",
+      "impact": "Stolen tokens remain valid indefinitely. Sessions never expire, violating the principle of least privilege over time.",
+      "remediation": "Implement JWT with expiration claims. Add a response interceptor to detect 401 status and redirect to login. Implement token refresh flow with refresh tokens.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-010",
+      "title": "API Error Messages Displayed Directly to Users Without Sanitization",
+      "severity": "MEDIUM",
+      "cvss_estimate": 4.3,
+      "cwe": "CWE-209",
+      "owasp": "A04:2021 – Insecure Design",
+      "file": "src/utils/request.ts",
+      "line_range": "30-31",
+      "code_snippet": "ElMessage.error(res.message || 'Error')\nElMessage.error(error.message || 'Request Error')",
+      "description": "Backend error messages (res.message) and Axios error messages are displayed directly to users via ElMessage.error() without sanitization. If the backend returns verbose error messages containing stack traces, SQL fragments, or internal paths, these will be shown to end users.",
+      "impact": "Information disclosure. Verbose error messages may reveal internal system architecture, database structure, or file paths to attackers.",
+      "remediation": "Map backend error codes to user-friendly, generic error messages on the frontend. Log detailed errors to console (dev only) and monitoring systems, but show only safe messages to users.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-011",
+      "title": "External Avatar Image Loaded Without Integrity Check",
+      "severity": "LOW",
+      "cvss_estimate": 3.1,
+      "cwe": "CWE-829",
+      "owasp": "A08:2021 – Software and Data Integrity Failures",
+      "file": "src/layout/Header.vue",
+      "line_range": "51",
+      "code_snippet": "<img :src=\"avatar + '?imageView2/1/w/80/h/80'\" class=\"user-avatar\" />",
+      "description": "The user avatar is loaded from an external hardcoded URL (wpimg.wallstcn.com) without Subresource Integrity (SRI) or any validation. The URL includes a query parameter for image manipulation. If the external domain is compromised, malicious content could be served.",
+      "impact": "Potential for serving malicious images, user tracking via external requests, and mixed content issues.",
+      "remediation": "Host avatar images on the same domain or a trusted CDN. If external images are required, implement CSP img-src restrictions and consider proxying through backend.",
+      "status": "open"
+    },
+    {
+      "id": "VULN-012",
+      "title": "Client-Side Role Selection Without Server Validation",
+      "severity": "LOW",
+      "cvss_estimate": 3.7,
+      "cwe": "CWE-602",
+      "owasp": "A04:2021 – Insecure Design",
+      "file": "src/views/LoginView.vue",
+      "line_range": "76-79",
+      "code_snippet": "<el-select v-model=\"loginForm.testRole\" placeholder=\"選擇測試角色\">\n  <el-option label=\"系統管理員 (SysAdmin)\" value=\"SysAdmin\" />\n  <el-option label=\"管理者 (Manager)\" value=\"Manager\" />\n  <el-option label=\"一般用戶 (User)\" value=\"User\" />\n</el-select>",
+      "description": "Users can freely select their own role (SysAdmin/Manager/User) at login time from a dropdown. This role is then used client-side to determine permissions. There is no server-side validation that the user is authorized for the selected role.",
+      "impact": "Any user can self-assign the SysAdmin role and gain full access to all application features.",
+      "remediation": "Roles must be determined server-side based on the authenticated user's identity. The role selector should only exist in development/testing mode. In production, roles should be returned by the backend authentication endpoint.",
+      "status": "open"
+    }
+  ],
+  "attack_chains": [
+    {
+      "name": "Full Admin Takeover",
+      "steps": [
+        "Attacker navigates to /login",
+        "Enters any username (e.g., 'admin') and selects SysAdmin role",
+        "If backend is down, mock login succeeds (VULN-007)",
+        "Fake token 'token-mock-admin-001' is generated (VULN-002)",
+        "Router guard only checks token existence, not validity (VULN-003)",
+        "Attacker has full SysAdmin access to all routes and features"
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "name": "Privilege Escalation via URL",
+      "steps": [
+        "User logs in legitimately with 'User' role",
+        "User is assigned only /dashboard permission",
+        "User manually navigates to /report-permissions in URL bar",
+        "Router guard passes because token exists (VULN-003)",
+        "User can view and modify report permissions"
+      ],
+      "severity": "HIGH"
+    }
+  ],
+  "recommendations_priority": [
+    "1. Implement real backend authentication with JWT tokens (fixes VULN-002, VULN-009)",
+    "2. Add route-level permission enforcement in router guard (fixes VULN-003)",
+    "3. Gate all mock/fallback code behind DEV environment check (fixes VULN-007)",
+    "4. Remove client-side role selector in production (fixes VULN-012)",
+    "5. Validate redirect URLs after login (fixes VULN-004)",
+    "6. Migrate token storage from localStorage to httpOnly cookies (fixes VULN-005)",
+    "7. Implement CSRF protection (fixes VULN-006)",
+    "8. Add security headers and CSP (fixes VULN-008)",
+    "9. Implement token expiration and refresh (fixes VULN-009)",
+    "10. Sanitize error messages shown to users (fixes VULN-010)"
+  ]
+}
