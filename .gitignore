@@ -1,0 +1,6 @@
+# 工具實驗沙盒：保留資料夾本身，但忽略內部所有檔案/子資料夾
+tool_experiments/*
+!tool_experiments/.gitkeep
+
+# Claude Code 本機設定（每位開發者自有）
+.claude/settings.local.json
