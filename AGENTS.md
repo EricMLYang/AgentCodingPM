@@ -71,9 +71,25 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 | `.ai/knowledge/` | 術語表、經驗法則 | 所有產出都必須符合 |
 | `.ai/interfaces/` | 跨 Repo 介面 | 與其他 Repo 協作時 |
 | `.ai/memory/` | 決策記錄與經驗教訓 | 遇到類似情境時 |
-| `00_context/` | 專案背景（Agent Coding 原則、品質門檻、等級定義）| 所有決策的知識基礎 |
-| `01_inbox/` | 信號池 | 收到新資訊時 |
+| `00_context/` | 長期權威知識（10 個主題式檔案，先讀 `00-README.md`） | 所有決策的知識基礎 |
+| `01_inbox/` | 短期信號池（規範見 `00-inbox-rules.md`，單檔 ≤ 5KB） | 收到新資訊時 |
+| `02_精選文章/` | 經篩選的外部觀察與深度研究（**只讀，Agent 不載入**） | 追溯外部素材時 |
 | `05_product/` | Outcome / OPP / Backlog | 核心流程操作時 |
+
+### `00_context/` 主題快查（flat 結構）
+
+| 檔案 | 用途 |
+|------|------|
+| `00-README.md` | 索引 + 閱讀順序（先讀這個） |
+| `01-定位與判斷權.md` | 角色按判斷權劃分、AI 24/7 最小可行控制集 |
+| `02-瓶頸遷移與量測指標.md` | 系統動力學 + 「需求到驗證通過」lead time |
+| `03-成熟度等級_L0至L4.md` | AgentCoding 自駕成熟度（含 3A/3B/3C） |
+| `04-輕量開發流程.md` | 6-10 人團隊流程 + 能力金字塔 |
+| `05-風險分層與五大品質門檻.md` | R0-R3 + Gate A-E + Code Review L1/L2/L3 |
+| `06-AgentCoding進階Pattern.md` | 社群 Pattern A-J |
+| `07-工具地圖與防線設計.md` | Coding Agent 四架構 + AI Code Review 6 層防線 |
+| `08-Skill與Harness工程.md` | Skill 範式 + Harness 工程 + 擴散 Template |
+| `09-外部資源與閱讀清單.md` | 人物/Repo/課程 follow 清單 |
 
 ---
 
