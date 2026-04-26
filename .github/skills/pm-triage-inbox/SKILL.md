@@ -39,6 +39,31 @@ PM 確認後，在 Inbox 檔案頂部加入：
 - **處理日期**：YYYY-MM-DD
 ```
 
+### 4. 歸檔流程（每處理一個檔案必走四步）[hybrid]
+
+依共用規範 `PM_Head_work/.ai/knowledge/standards/inbox-mechanism.md`，
+任一 inbox 檔案被處理後，**四步缺一不可**：
+
+1. **執行業務動作** — 升級成 OPP / 寫入 context / 搬 02_精選文章 / 執行任務 …
+2. **append 處理記錄到 `01_inbox/00-processing-log.md`**
+   - 受控動作詞彙（五選一）：
+     - `promoted` — 升級為 OPP（去向欄填 OPP 編號）
+     - `merged` — 萃取進 `00_context/`（去向欄填目標檔 + 章節）
+     - `curated` — 移到 `02_精選文章/`（去向欄填新路徑）
+     - `done` — 一次性任務執行完（去向欄填簡短說明）
+     - `dropped` — 不再需要（仍 archive 原檔，去向欄填原因）
+   - 表格格式：`| YYYY-MM-DD | <原檔名> | <動作> | <去向/說明> | <處理人> |`
+   - **append-only** — 不修改既有條目
+3. **歸檔原檔** — `mv 01_inbox/<原檔> 01_inbox/_archive/YYYY-MM/`
+   - 月份資料夾不存在則建
+   - 即使是 `dropped` 也不刪檔，保留原檔留底
+4. **重建 `01_inbox/00-inbox-overview.md`**
+   - 重新掃描未處理檔（排除 `00-*.md`、`_archive/`、`README.md`）
+   - 從 log 抓最近 7 天動作填入 dashboard
+   - 計算滯留天數，>30 天者列入「警示」
+
+> 跳過任一步都會讓 overview / log 失真，未來無法追溯。
+
 ## 輸出格式
 ```markdown
 ### Triage Summary
@@ -83,6 +108,7 @@ PM 確認後，在 Inbox 檔案頂部加入：
 - 每筆資訊都被分類，無遺漏。
 - 信號類有初步風險等級判定（L0/L1/L2）。
 - 輸出包含明確的下一步建議。
+- 每處理一個檔案，`00-processing-log.md` 必有對應條目，`_archive/YYYY-MM/` 必有原檔，`00-inbox-overview.md` 必同步重建。
 
 ## 已知限制（Limitations）
 - 無法判斷信號的業務重要性排序，需 PM 最終決定。
