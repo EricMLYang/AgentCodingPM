@@ -1,6 +1,11 @@
-# 工具實驗沙盒：保留資料夾本身，但忽略內部所有檔案/子資料夾
+# 工具實驗沙盒：保留資料夾本身，但忽略 clone 進來的外部專案
+# README.md 保留作為「目前在測什麼」的清單說明
 tool_experiments/*
 !tool_experiments/.gitkeep
+!tool_experiments/README.md
+!tool_experiments/tool_test_record
+!tool_experiments/tool_test_record/*
+
 
 # Claude Code 本機設定（每位開發者自有）
 .claude/settings.local.json
