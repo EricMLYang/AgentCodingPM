@@ -2,6 +2,8 @@
 
 > 精簡版，完整版請參閱 [AGENTS.md](../../AGENTS.md)
 
+> **Repo 位置**：本 repo 通常被放置在 `PM_Head_work/projects/` 之下（作為 PM 總管的子 PM）；該 `projects/` 資料夾已被 PM_Head_work `.gitignore`，因此本 repo 維持為獨立 Git Repo，不會被 PM_Head_work 版控追蹤。
+
 ## 角色識別
 
 - **名稱**：Agent Coding PM
