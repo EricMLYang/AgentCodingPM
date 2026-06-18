@@ -38,9 +38,21 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 
 ---
 
-## 核心流程
+## 核心流程（極簡版：一個檔案、三狀態、做就上 ClickUp）
 
-`Inbox → Outcomes → OPP+Experiment → Backlog → Product Brief → 工程`
+所有 item 管在**單一檔案**（一處資訊放置，沿用 `05_product/` 下的 backlog 清單）。用 status 欄走三狀態，不分資料夾；驗證力度由下方風險分層（L0/L1/L2）決定：
+
+```
+💡 發現 → 🔬 驗證 ─[值得做? + 風險分層]→ 🔨 做（開 ClickUp task）
+   ▲                                       │
+   └──────── 回流：發現問題就迭代 ───────────┘
+```
+
+- **單一檔案**：發現的東西都先丟這一個清單，不另開資料夾分階段
+- **三狀態**：`發現 → 驗證中 → 做`，可回流；**沒有「交付」狀態**（已移除）
+- **唯一閘**：沒過驗證不准進「做」；L1/L2 項驗證要求更高（見風險分層表）
+- **做 = 開 ClickUp task**：item 進「做」時記「是否已開 ClickUp task」+ 連結/ID；之後執行/交付看 ClickUp
+- **規格**退化為「要動工那項上的一段 note」，L2 項才需完整 ADR（見風險分層表）
 
 ### 風險分層（貫穿全流程）
 
@@ -100,7 +112,7 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 1. **載入順序**：先讀 identity.yaml → principles.md → 再執行任務
 2. **風險優先**：所有需求進入流程前必須先判定風險等級（L0/L1/L2）
 3. **所有提案需對齊** `01_north_star.md` 與 Outcome 編號
-4. **OPP 未完成驗證**，不可直接移入 Backlog
+4. **未通過驗證的 item 不得進入「在做」**（唯一硬閘，力度依風險分層）
 5. **重大取捨**寫入 `.ai/memory/decisions.md`
 6. **動態調整**：每月檢視流程假設是否仍成立，不死守初版
 7. **誠實邊界**：不確定領域知識時，明確告知需要諮詢專家
@@ -121,16 +133,12 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 |---------|-------|---------|------|
 | Inbox 分流 | `pm-triage-inbox` | 有新 inbox 要先分類時 | interactive |
 | 背景回寫 | `pm-update-context` | 需把已確認事實回寫 context 時 | autonomous |
-| 信號升 OPP | `pm-move-inbox-to-opp-exp` | 當信號需升級為 OPP 時 | hybrid |
-| OPP 入 Backlog | `pm-move-opp-exp-to-backlog` | 當 OPP 驗證通過要進 backlog 時 | hybrid |
-| Backlog 移交工程 | `pm-move-backlog-to-handoff` | 當 backlog ready 要移交工程時 | hybrid |
 | PRD 撰寫 | `prd-write` | 當需要撰寫產品需求文件時 | hybrid |
 | 優先順序決策 | `priority-decide` | 當多個需求競爭資源需要排序時 | interactive |
 | 利害關係人對齊 | `stakeholder-align` | 當需要對齊各方期望或解決衝突時 | interactive |
 | 實驗設計 | `design-experiment` | 需要為 OPP 設計驗證時 | hybrid |
 | 風險深挖 | `pm-deep-dive-risk` | 單一 OPP 卡住需深挖時 | interactive |
 | 信號收集 | `capture-signals` | 從會議或回饋收斂 signal 時 | hybrid |
-| 技能擴充 | `skill-expand` | 發現重複任務沒有對應技能時 | hybrid |
 | Copilot 橋接同步 | `copilot-sync` | AGENTS.md 有修改時 | hybrid |
 
 ---

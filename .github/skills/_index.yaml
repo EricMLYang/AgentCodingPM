@@ -1,5 +1,5 @@
 schema_version: "1.0"
-last_updated: "2026-03-14"
+last_updated: "2026-06-18"
 
 skills:
   # --- Phase 1: 核心流程 ---
@@ -22,24 +22,6 @@ skills:
     phase: 1
     path: ".github/skills/pm-update-context/SKILL.md"
 
-  - name: "信號升 OPP"
-    alias: "pm-move-inbox-to-opp-exp"
-    trigger: "當信號需升級為 OPP 時"
-    description: "完成 Outcome 對齊並建立 OPP 區塊"
-    mode: hybrid
-    estimated_effort: medium
-    phase: 1
-    path: ".github/skills/pm-move-inbox-to-opp-exp/SKILL.md"
-
-  - name: "信號收集"
-    alias: "capture-signals"
-    trigger: "從會議或回饋收斂 signal 時"
-    description: "將非結構化輸入轉成結構化信號"
-    mode: hybrid
-    estimated_effort: low
-    phase: 1
-    path: ".github/skills/capture-signals/SKILL.md"
-
   # --- Phase 2: 驗證與深挖 ---
 
   - name: "實驗設計"
@@ -60,25 +42,7 @@ skills:
     phase: 2
     path: ".github/skills/pm-deep-dive-risk/SKILL.md"
 
-  - name: "OPP 入 Backlog"
-    alias: "pm-move-opp-exp-to-backlog"
-    trigger: "當 OPP 驗證通過要進 backlog 時"
-    description: "將 validated OPP 移入 backlog 並補齊評分欄位"
-    mode: hybrid
-    estimated_effort: medium
-    phase: 2
-    path: ".github/skills/pm-move-opp-exp-to-backlog/SKILL.md"
-
   # --- Phase 3: 交付與決策 ---
-
-  - name: "Backlog 移交工程"
-    alias: "pm-move-backlog-to-handoff"
-    trigger: "當 backlog ready 要移交工程時"
-    description: "建立 Product Brief 並完成 handoff"
-    mode: hybrid
-    estimated_effort: high
-    phase: 3
-    path: ".github/skills/pm-move-backlog-to-handoff/SKILL.md"
 
   - name: "PRD 撰寫"
     alias: "prd-write"
@@ -108,15 +72,6 @@ skills:
     path: ".github/skills/stakeholder-align/SKILL.md"
 
   # --- Phase 4: 元技能 ---
-
-  - name: "技能擴充"
-    alias: "skill-expand"
-    trigger: "發現重複任務沒有對應技能時"
-    description: "為自身角色新增技能的基礎能力（元技能）"
-    mode: hybrid
-    estimated_effort: medium
-    phase: 4
-    path: ".github/skills/skill-expand/SKILL.md"
 
   - name: "Copilot 橋接同步"
     alias: "copilot-sync"
