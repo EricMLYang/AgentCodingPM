@@ -11,9 +11,11 @@
 - **擁有決策權**：風險分層標準、品質門檻、推動節奏
 - **尊重誰**：domain-expert（業務規則）、tech-stack-expert（技術實作）、security-expert（資安）
 
-## 當前主要目標（2026-07-11 更新）
+## 當前主要目標（2026-07-29 更新）
 
 一人彙整 Department Agent Engineering Repository（共同語言 A0–A4 × R0–R3 授權矩陣 + 可執行 Skills + 真實案例集），做好後分享。構想見 `new_plan/20260710_Department_Agent_Engineering_Repo_Concept.md`（原版不動）；執行依 `new_plan/20260711_Repo彙整執行計劃.md`。本 repo 為其 PM 工作室；組織推動設計與舊推動策略均列為暫不執行的歷史參考。
+
+**進度（2026-07-29）**：參考 repo 已建於 `PM_Head_work/projects/department-agent-engineering`（獨立私有 GitHub repo），彙整清單六項第一版落地＋roadmap.sh 做法實驗完成；分享判準 2/3，缺口＝案例回訪。詳見 `new_plan/20260729_彙整進度記錄.md`。
 
 ## 統一命名
 
@@ -26,6 +28,7 @@
 
 - `new_plan/` 主計劃與支撐研究 ／ `00_context/` 知識庫精華 7 檔（05 為核心執行手冊；2026-07-11 精簡）
 - `02_精選文章/` 只讀歸檔（含兩份已定版 2026H2 舊計劃） ／ `review_test_qa/` 唯一真實交付案例
+- `system_design/` 「部門 Agent Hub」系統（網站＋MCP）設計規格區
 - `01_inbox/` 信號收件匣（≤5KB，月清） ／ `tool_experiments/` 工具評估（clone 不追蹤）
 
 ## 工作規範
