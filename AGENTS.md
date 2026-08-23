@@ -57,7 +57,7 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 | `00_context/` | 知識庫精華（2026-07-11 精簡為 7 檔，將分批遷入部門 repo）——01 判斷權與量測（含原02）｜03 成熟度 L0–L4｜04 任務交辦與驗收｜05 風險分層與 Gate A–E（**核心執行手冊**）｜06 進階 Pattern 與外部資源（含原09）｜07 工具防線設計｜08 Skill 與 Harness 工程 |
 | `02_精選文章/` | 只讀歸檔：外部深度素材 + 已定版舊計劃（2026H2 落地改造計劃書、推動小組由小到大策略）。平時不載入，查引用時才讀 |
 | `review_test_qa/` | **唯一真實交付案例**（AI 資安 Review V1→V2，2026-03~04）——部門 repo casebook 第一案；閉環（建議採納率）仍待補追蹤 |
-| `system_design/` | 「部門 Agent Hub」系統（網站＋MCP）設計規格區——內容 repo 為唯一真相、系統只是消費端 |
+| `system_design/` | 「部門 Agent Hub」系統（網站＋MCP）需求與設計區——現行計劃為 v0.2（2026-08-23）：系統自存內容（DB 為真相）、MCP 供查詢與 Eric 編輯；skills 檔案本體留 git。未來與程式碼一起移出成獨立 repo |
 | `01_inbox/` | 短期信號收件匣（PM_Head `inbox-dispatch` 落點；單檔 ≤5KB，月清） |
 | `tool_experiments/` | 工具評估區（clone 皆被 gitignore，只追蹤 README 與測試記錄） |
 | `.github/prompts/` | 可複用 Prompt（如：每月搜尋團隊導入案例） |

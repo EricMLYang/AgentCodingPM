@@ -28,7 +28,7 @@
 
 - `new_plan/` 主計劃與支撐研究 ／ `00_context/` 知識庫精華 7 檔（05 為核心執行手冊；2026-07-11 精簡）
 - `02_精選文章/` 只讀歸檔（含兩份已定版 2026H2 舊計劃） ／ `review_test_qa/` 唯一真實交付案例
-- `system_design/` 「部門 Agent Hub」系統（網站＋MCP）設計規格區
+- `system_design/` 「部門 Agent Hub」系統（網站＋MCP）需求與設計區——現行計劃 v0.2：系統自存內容（DB 為真相）、MCP 供查詢與編輯
 - `01_inbox/` 信號收件匣（≤5KB，月清） ／ `tool_experiments/` 工具評估（clone 不追蹤）
 
 ## 工作規範
