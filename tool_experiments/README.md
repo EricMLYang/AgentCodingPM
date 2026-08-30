@@ -4,7 +4,7 @@
 > 此 README 與 `.gitignore` 本身會保留追蹤，作為「目前正在測試什麼」的指南。
 
 來源：`00_context/agent_projects_list.md`（社群觀察）
-最後更新：2026-04-29
+最後更新：2026-08-29
 
 ---
 
@@ -87,6 +87,20 @@
   - 待測：跑一個 `priority-decide` 或 `prd-write` 的真實 PM 案例，看 SDD 能否取代目前的 PRD-only 流程
   - 假設：適合作為 OPP → Backlog 之間的「規格化」工具
 
+### 7. `orca/` — 多 Agent 編排的開發環境（ADE）
+
+連結：<https://github.com/stablyai/orca>
+
+- **What**：Stably AI 出品的 ADE（Agent Development Environment），MIT 授權。它不是模型也不是 agent，而是架在所有 CLI Agent（Claude Code / Codex / Cursor / OpenCode / Grok 等 30 餘種）上面的一層統一工作介面。自我定位：「The AI Orchestrator for 100x builders」。
+- **How**：核心是「同時跑、看得見、比得了、合得回去」四件事——Parallel Worktrees（同一 prompt 扇出給多個 agent，各自隔離工作區）、Terminal Splits（WebGL 渲染、scrollback 跨重啟保留）、Annotate AI Diffs（在 diff 任一行留評論丟回 agent）、Design Mode（點瀏覽器裡的 UI 元素直接塞進 prompt）、SSH Worktrees（agent 跑遠端）、Mobile Companion（手機監看與追加指令）、Orca CLI（`orca worktree create` / `snapshot` / `click` / `fill`——**agent 也能驅動 Orca 自己**）。
+- **Why**：對照 Better Agent Terminal 的「多終端聚合」，Orca 押的是更上層的**協調層**：當操作單位從「檔案與程式碼」變成「Agent session、worktree、任務、修改結果」時，需要的是隔離／監看／審查這三件事的工務所。其 `AGENTS.md` 本身也是很好的教材（SSH 場景把判定詞彙鎖死為 `live`/`unverifiable`/`exited`，明文寫下「失聯不等於死亡」）。
+- **測試記錄**
+  - 2026-08-23 ｜ 朋友推薦，研究 repo 與社群討論，落成 capture `card_notes/003_Capture/20260823_Orca_開源多代理開發環境初探.md`
+  - 2026-08-26 ｜ 寫成發佈文〈Orca 想當的不是更好的 IDE，是 Agent 們的工務所〉
+  - 2026-08-27 ｜ clone 完成
+  - 判斷：**對數據工程場景先踩煞車**——任務常共享同一條管線／schema／分析脈絡，硬切成多個隔離工作區，整合成本可能吃掉平行化收益。試驗清單只放低相依、可驗收的場景（同一數據問題不同解法／文件與測試獨立重構／套件升級／比較兩家 Agent 的設計判斷）
+  - 延伸：與 better-agent-terminal 一起作為「為自己的工作方式打造環境」的思維參考，見 `personal_agent_design/20260829_我與Agent的互動方式_方向素材.md` §2
+
 ---
 
 ## 三、選型一句話摘要
@@ -96,6 +110,7 @@
 - **記憶型** — 長期穩定作戰、記憶為王 → OpenClaw
 - **流程型** — 為 coding agent 套上 lifecycle skill → agent-skills
 - **介面型** — 多終端 + agent panel 整合 → Better Agent Terminal
+- **編排型** — 多 Agent 平行 worktree + 監看 + 比較合併 → Orca
 - **規格型** — Spec-Driven Development GUI → Spectra
 
 主流組合建議：OpenClaw 當主力大腦 + OpenAB 給團隊用，互補不互搶；agent-skills 與 Spectra 作為流程資產來源。
