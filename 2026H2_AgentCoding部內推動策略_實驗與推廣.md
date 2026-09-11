@@ -132,7 +132,7 @@ inputs:
 第四節那一頁數字。**只講量到的，不講願景。** 推廣話術永遠是「實驗 2 這個遷移任務 lead time 從 X 天變 Y 天，你那個 repo 要不要也掛上」，不是「AI 時代要擁抱變化」。
 
 ### 2. Skill 化（實驗驗證後立刻做）
-驗證過的流程收斂成 `.github/skills/` 裡可重複執行的 skill + repo template（CI 設定、PR template、progress harness 樣板）。目標：**下一個 repo 接入的成本 < 半天**。「做過一次」不等於「skill 已穩定」——沒有實驗的量化數字撐腰，不准進 skill 庫。
+驗證過的流程收斂成 `.agents/skills/` 裡可重複執行的 skill + repo template（CI 設定、PR template、progress harness 樣板）。目標：**下一個 repo 接入的成本 < 半天**。「做過一次」不等於「skill 已穩定」——沒有實驗的量化數字撐腰，不准進 skill 庫。
 
 ### 3. 志願者梯次（不強制、不指派）
 第一梯 2-3 人跑實驗 → 每完成一個實驗開一次 30 分鐘 show-and-tell（講數字、demo 流程、講踩的坑）→ 分享會現場招募下一梯。用得好的人自然成為種子，比任何指派都有效。

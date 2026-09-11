@@ -1,7 +1,7 @@
 # AGENTS.md — Agent Coding PM
 
 > 本文件是 AgentCodingPM 的核心指令源。
-> Claude Code 和 Codex CLI 直接讀取；GitHub Copilot 透過 `.github/copilot-instructions.md`；Gemini CLI 透過 `GEMINI.md` 讀取。
+> `AGENTS.md` 是 Codex CLI 與 Claude Code 共用的核心指令源；Claude Code 由 `CLAUDE.md` 匯入本檔；Gemini CLI 透過 `GEMINI.md` 讀取。
 
 > **Repo 位置**：本 repo 通常被放置在 `PM_Head_work/projects/` 之下（作為 PM 總管的子 PM）；該 `projects/` 資料夾已被 PM_Head_work `.gitignore`，因此本 repo 維持為獨立 Git Repo，不會被 PM_Head_work 版控追蹤。
 
@@ -60,7 +60,7 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 | `system_design/` | 「部門 Agent Hub」系統（網站＋MCP）需求與設計區——現行計劃為 v0.2（2026-08-23）：系統自存內容（DB 為真相）、MCP 供查詢與 Eric 編輯；skills 檔案本體留 git。未來與程式碼一起移出成獨立 repo |
 | `01_inbox/` | 短期信號收件匣（PM_Head `inbox-dispatch` 落點；單檔 ≤5KB，月清） |
 | `tool_experiments/` | 工具評估區（clone 皆被 gitignore，只追蹤 README 與測試記錄） |
-| `.github/prompts/` | 可複用 Prompt（如：每月搜尋團隊導入案例） |
+| `.agents/prompts/` | 可複用 Prompt（如：每月搜尋團隊導入案例） |
 
 ---
 
@@ -70,12 +70,12 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 2. 風險優先：任務進流程前先判 R0–R3，審查力度按 `00_context/05`
 3. 驗證先於承諾：資產未經自己實際使用不標 `tested`；對人分享用真實案例說話
 4. 誠實邊界：不確定領域知識時，明確告知需諮詢專家
-5. AGENTS.md 變更後執行 `copilot-sync` 維持橋接一致
+5. AGENTS.md 變更後執行 `claude-sync` 維持 `CLAUDE.md` 入口一致
 6. `02_精選文章/` 內文件為定版歸檔，只讀不改
 
 ---
 
 ## 技能
 
-僅保留 `copilot-sync`（AGENTS.md 修改後同步 `.github/copilot-instructions.md`，見 `.github/skills/_index.yaml`）。
+僅保留 `claude-sync`（AGENTS.md 修改後確認 `CLAUDE.md` 仍以本檔為唯一真相，見 `.agents/skills/_index.yaml`）。
 原 PM 流程技能（pm-triage-inbox / prd-write / priority-decide / stakeholder-align 等 7 個）於 2026-07-10 隨舊管線一併移除，需要時從 git 歷史回溯。

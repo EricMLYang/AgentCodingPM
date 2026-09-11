@@ -60,7 +60,7 @@
 - **Why**：對齊 AgentCodingPM 的 R0–R3 風險分層 / Gate A–E 品質門檻概念——這套 skill pack 等於把最佳實踐外部化、避免每次都要在 prompt 裡重複交代規範。直接套用或挑選 skill 都可，最適合作為自家 skill 設計的對照組。
 - **測試記錄**
   - 2026-04-25 ｜ clone 完成
-  - 觀察：與本 repo 的 `.github/skills/` 結構相似，可作為「skill 寫法 / checklist 結構」的參考來源
+  - 觀察：與本 repo 的 `.agents/skills/` 結構相似，可作為「skill 寫法 / checklist 結構」的參考來源
   - 待測：把 `/spec` 與 `/review` 套到 review_test_qa 的真實案例上比對
 
 ### 5. `better-agent-terminal/` — 多終端 + Agent 整合 GUI

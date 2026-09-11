@@ -1,15 +1,15 @@
 schema_version: "1.0"
-last_updated: "2026-07-10"
+last_updated: "2026-09-11"
 
 # 2026-07-10 簡化重整：原 PM 流程技能（pm-triage-inbox / pm-update-context /
 # design-experiment / pm-deep-dive-risk / prd-write / priority-decide /
 # stakeholder-align）隨舊 Outcome/OPP/Backlog 管線一併移除，git 歷史可回溯。
 
 skills:
-  - name: "Copilot 橋接同步"
-    alias: "copilot-sync"
+  - name: "Claude 橋接同步"
+    alias: "claude-sync"
     trigger: "AGENTS.md 有修改時"
-    description: "確保 copilot-instructions.md 與 AGENTS.md 的必要資訊保持同步"
+    description: "確保 CLAUDE.md 以 AGENTS.md 為唯一真相，並指向 .agents 資產"
     mode: hybrid
     estimated_effort: low
-    path: ".github/skills/copilot-sync/SKILL.md"
+    path: ".agents/skills/claude-sync/SKILL.md"

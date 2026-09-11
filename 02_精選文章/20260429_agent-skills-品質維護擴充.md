@@ -4,7 +4,7 @@ date: 2026-04-29
 status: raw
 type: external-obs
 source: tool_experiments/agent-skills/skills/
-next-action: 評估吸收進 00_context/05-風險分層與五大品質門檻.md 與 .github/skills/ 模板
+next-action: 評估吸收進 00_context/05-風險分層與五大品質門檻.md 與 .agents/skills/ 模板
 ---
 
 # agent-skills：品質／維護／擴充 速覽
@@ -30,7 +30,7 @@ next-action: 評估吸收進 00_context/05-風險分層與五大品質門檻.md 
 ## 吸收建議
 
 1. 五軸 Review + 嚴重度 → `00_context/05`。
-2. Rationalizations/RedFlags/Verification 三段 → `.github/skills/` 模板。
+2. Rationalizations/RedFlags/Verification 三段 → `.agents/skills/` 模板。
 3. Change Sizing + Rule of 500 → Backlog 移交與 Review checklist。
 4. Hyrum's Law / Code Is a Liability / Churn Rule → `.ai/principles.md`。
 5. Prove-It Pattern → R1/R2 bug 修復寫進 Gate C。
