@@ -3,7 +3,7 @@
 > 本文件是 AgentCodingPM 的核心指令源。
 > `AGENTS.md` 是 Codex CLI 與 Claude Code 共用的核心指令源；Claude Code 由 `CLAUDE.md` 匯入本檔；Gemini CLI 透過 `GEMINI.md` 讀取。
 
-> **Repo 位置**：本 repo 通常被放置在 `PM_Head_work/projects/` 之下（作為 PM 總管的子 PM）；該 `projects/` 資料夾已被 PM_Head_work `.gitignore`，因此本 repo 維持為獨立 Git Repo，不會被 PM_Head_work 版控追蹤。
+> **Repo 位置**：本 repo 與 PM 總管 repo `PM_Head` 平行放在同一個上層資料夾（作為 PM 總管的子 PM），從 PM_Head 看是 `../AgentCodingPM/`（2026-11-13 起不再放在 `PM_Head/projects/` 之下）；本 repo 是獨立 Git Repo，不受 PM_Head 版控追蹤。
 
 ---
 
@@ -29,7 +29,7 @@ AI 沒有消除瓶頸，只是把瓶頸從「寫程式」搬到了「需求定�
 
 > 由 Eric 一人先彙整高品質參考 repo——共同語言（A0–A4 × R0–R3 授權矩陣）、可執行 Skills、真實案例集三層——做到「同事 30 分鐘能看懂並拿走一個 skill」再分享給部門。
 
-**進度（2026-07-29）**：參考 repo 已建立於 `PM_Head_work/projects/department-agent-engineering`（獨立私有 GitHub repo），彙整清單六項第一版全數落地，另完成 roadmap.sh 做法實驗（graph.yaml→mermaid）；「夠好可以分享」判準達 2/3，缺口＝案例回訪。詳見 `new_plan/20260729_彙整進度記錄.md`。
+**進度（2026-07-29）**：參考 repo 已建立於 `../department-agent-engineering`（獨立私有 GitHub repo），彙整清單六項第一版全數落地，另完成 roadmap.sh 做法實驗（graph.yaml→mermaid）；「夠好可以分享」判準達 2/3，缺口＝案例回訪。詳見 `new_plan/20260729_彙整進度記錄.md`。
 
 本 repo 是該計劃的 **PM 工作室**：素材加工、案例累積在這裡，定版內容搬往部門 repo。構想檔中的組織推動設計（Phase、推廣圈、評鑑、委員會）與舊推動策略（`02_精選文章/2026H2_AgentCoding推動小組_由小到大策略.md`）均列為**暫不執行的歷史參考**；若分享後部門正式採用，再行啟用。
 
